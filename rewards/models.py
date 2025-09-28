@@ -25,21 +25,6 @@ class User(AbstractUser):
     tier = models.CharField(max_length=20, default='Bronze')
     points = models.IntegerField(default=0)
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name='user_set',
-        blank=True,
-        help_text='The groups this user belongs to.',
-        verbose_name='groups',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='user_permissions_set',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        verbose_name='user permissions',
-    )
-
     def __str__(self):
         return self.username
 
