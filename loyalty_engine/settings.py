@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'oPvzQTwgx3lN5uMyvLJG4xiB81XPqb2aEPbggAUtJbQQY7QcjuY-wiDusJ9xybbX73MQ')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']  # Use '*' for Vercel, restrict in prod
 
@@ -39,18 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'rewards',
     'ecom',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',  # Ensure this is after CorsMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -61,10 +61,15 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
+    "https://loyalty-frontend-phi.vercel.app",
+    "https://loyalty-frontend-q57k2n6qb-jagans-projects-4304ba25.vercel.app",
 ]
 if os.environ.get('VERCEL_URL'):
     CORS_ALLOWED_ORIGINS.append(f"https://{os.environ.get('VERCEL_URL')}")
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
 
 ROOT_URLCONF = 'loyalty_engine.urls'
 
@@ -142,6 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files configuration
 MEDIA_URL = '/media/'
