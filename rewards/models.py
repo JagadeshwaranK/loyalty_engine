@@ -24,6 +24,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
     tier = models.CharField(max_length=20, default='Bronze')
     points = models.IntegerField(default=0)
+    loyalty_opt_in = models.BooleanField(default=False, help_text="User has opted into the loyalty program")
 
     def __str__(self):
         return self.username
