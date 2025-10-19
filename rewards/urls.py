@@ -5,6 +5,7 @@ from .views import (
     RedemptionViewSet, AdminRewardViewSet,
     UserRedemptionViewSet, PointsRateViewSet, MyTokenObtainPairView
 )
+from .analytics import AnalyticsDataView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 app_name = 'rewards'
@@ -20,6 +21,7 @@ router.register(r'points-rates', PointsRateViewSet, basename='points-rates')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('analytics/', AnalyticsDataView.as_view(), name='analytics_data'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
